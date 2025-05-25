@@ -11,4 +11,18 @@ public class HistoricoEmprestimos {
     private String status;
     private double multaAplicada;
     private Funcionario funcionarioResponsavel;
+
+    public HistoricoEmprestimos(Cliente cliente, List<Livro> livrosEmprestados,
+                                String dataEmprestimo, String dataDevolucao, String status,
+                                double multaAplicada, Funcionario funcionarioResponsavel) {
+
+        this.cliente = cliente;
+        this.livrosEmprestados = livrosEmprestados;
+        this.dataEmprestimo = dataEmprestimo;
+        this.dataDevolucao = dataDevolucao;
+        this.status = status;
+        this.multaAplicada = multaAplicada;
+        this.funcionarioResponsavel = funcionarioResponsavel;
+
+    }
 }

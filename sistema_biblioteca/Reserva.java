@@ -9,5 +9,18 @@ public class Reserva {
     private String dataExpiracao;
     private int numeroDiasParaRetirada;
     private String dataSolicitacao;
+
+    public Reserva(Cliente cliente, Livro livro, String dataReserva, String status,
+                   String dataExpiracao, int numeroDiasParaRetirada, String dataSolicitacao) {
+
+        this.cliente = cliente;
+        this.livro = livro;
+        this.dataReserva = dataReserva;
+        this.status = status;
+        this.dataExpiracao = dataExpiracao;
+        this.numeroDiasParaRetirada = numeroDiasParaRetirada;
+        this.dataSolicitacao = dataSolicitacao;
+
+    }
 }
 
