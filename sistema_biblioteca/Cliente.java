@@ -25,7 +25,7 @@ public class Cliente {
 
     @Override
     public String toString() {
-        return "Nome: " + this.nome + " | CPF: " + this.CPF + " | Cidade: " + this.cidade+
+        return " | Nome: " + this.nome + " | CPF: " + this.CPF + " | Cidade: " + this.cidade+
                 " | Telefone: " + this.telefone + " | Email: " + this.email+
                 " | Data de nascimento: " + this.dataNascimento + " | Cliente novo? " + this.clienteNovo;
     }

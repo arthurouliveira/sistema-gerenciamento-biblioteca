@@ -23,9 +23,17 @@ public class Livro {
 
     }
 
+    public int getQtdEstoque() {
+        return qtdEstoque;
+    }
+
+    public void setQtdEstoque(int qtdEstoque) {
+        this.qtdEstoque = qtdEstoque;
+    }
+
     @Override
     public String toString() {
-        return "Título: " + this.titulo + " | Autor: " + this.autor + " | ISNB: " + this.ISNB+
+        return " | Título: " + this.titulo + " | Autor: " + this.autor + " | ISNB: " + this.ISNB+
                 " | Ano de Publicação: " + this.anoPublicacao + " | Quantidade no estoque: " + this.qtdEstoque+
                 " | Categoria: " + this.categoria + " | Status: " + this.status;
     }

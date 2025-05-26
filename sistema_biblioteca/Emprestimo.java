@@ -23,4 +23,11 @@ public class Emprestimo {
         this.funcionarioResponsavel = funcionarioResponsavel;
 
     }
+
+    @Override
+    public String toString() {
+        return " | Cliente: [" + this.cliente + "] | Livro: [" + this.livro + "] | Data do empréstimo: " + this.dataEmprestimo+
+                " | Data da devolução: " + this.dataDevolucao + " | Status: " + this.status+
+                " | Multa: " + this.multaAplicada + " | Funcionário: [" + this.funcionarioResponsavel + "]";
+    }
 }

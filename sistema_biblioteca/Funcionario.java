@@ -6,12 +6,12 @@ public class Funcionario {
     private int CPF;
     private String cargo;
     private String email;
-    private int telefone;
+    private String telefone;
     private String dataContratacao;
     private String turnoTrabalho;
 
     public Funcionario(String nome, int CPF, String cargo, String email,
-                       int telefone, String dataContratacao, String turnoTrabalho) {
+                       String telefone, String dataContratacao, String turnoTrabalho) {
 
         this.nome = nome;
         this.CPF = CPF;
@@ -21,5 +21,12 @@ public class Funcionario {
         this.dataContratacao = dataContratacao;
         this.turnoTrabalho = turnoTrabalho;
 
+    }
+
+    @Override
+    public String toString() {
+        return " | Nome: " + this.nome + " | CPF: " + this.CPF + " | Cargo: " + this.cargo+
+                " | Telefone: " + this.telefone + " | Email: " + this.email+
+                " | Data de contratação: " + this.dataContratacao + " | Turno de trabalho: " + this.turnoTrabalho;
     }
 }

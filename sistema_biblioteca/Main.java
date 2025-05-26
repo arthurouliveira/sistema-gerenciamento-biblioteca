@@ -12,6 +12,8 @@ public class Main {
 
         List<Livro> livrosCadastrados = new ArrayList<>();
         List<Cliente> clientes = new ArrayList<>();
+        List<Funcionario> funcionarios = new ArrayList<>();
+        List<Emprestimo> historicoEmprestimos = new ArrayList<>();
 
         do {
             System.out.println("==== Sistema de Biblioteca ====");
@@ -103,8 +105,123 @@ public class Main {
                     System.out.println(clientes);
                     break;
 
+                case 3:
+                    System.out.printf("Nome do funcionário: ");
+                    String nomeFuncionario = scanner.nextLine();
+
+                    System.out.printf("CPF: ");
+                    int cpfFuncionario = scanner.nextInt();
+                    scanner.nextLine();
+
+                    System.out.printf("Cargo: ");
+                    String cargo = scanner.nextLine();
+
+                    System.out.printf("Email: ");
+                    String emailFuncionario = scanner.nextLine();
+
+                    System.out.printf("Telefone: ");
+                    String telefoneFuncionario = scanner.nextLine();
+
+                    System.out.printf("Data de contratação: ");
+                    String dataContratacao = scanner.nextLine();
+
+                    System.out.printf("Turno de trabalho: ");
+                    String turnoTrabalho = scanner.nextLine();
+
+                    Funcionario novoFuncionario = new Funcionario(nomeFuncionario, cpfFuncionario, cargo, emailFuncionario,
+                            telefoneFuncionario, dataContratacao, turnoTrabalho);
+
+                    funcionarios.add(novoFuncionario);
+
+                    System.out.println("---FUNCIONÁRIO CADASTRADO---");
+                    System.out.println(funcionarios);
+                    break;
+
+                case 4:
+                    System.out.println("--REALIZAR EMPRÉSTIMO--");
+
+                    if (clientes.isEmpty()) {
+                        System.out.println("Ainda não há nenhum cliente cadastrado. Cadastre um para realizar o empréstimo!");
+                        continue;
+                    } else if (livrosCadastrados.isEmpty()) {
+                        System.out.println("Ainda não há nenhum livro cadastrado. Cadastre um para realizar o empréstimo!");
+                        continue;
+                    } else if (funcionarios.isEmpty()) {
+                        System.out.println("Ainda não há nenhum funcionário cadastrado. Cadastre um para realizar o empréstimo!");
+                    }
+
+                    else {
+                        exibirLivros(livrosCadastrados);
+                        System.out.print("Digite o ID do livro: ");
+                        int idLivro = scanner.nextInt();
+                        scanner.nextLine();
+                        Livro livroEmprestimo = livrosCadastrados.get(idLivro - 1);
+                        int disponibilidadeLivro = livroEmprestimo.getQtdEstoque();
+
+                        if (disponibilidadeLivro == 0) {
+                            System.out.println("Livro indisponível. Tente novamente!");
+                            continue;
+                        } else {
+                            livroEmprestimo.setQtdEstoque(livroEmprestimo.getQtdEstoque()-1);
+
+                            exibirClientes(clientes);
+                            System.out.printf("Qual cliente deseja conceder o empréstimo? ID: ");
+                            int idCliente = scanner.nextInt();
+                            scanner.nextLine();
+                            Cliente clienteEmprestimo = clientes.get(idCliente - 1);
+
+                            exibirFuncionarios(funcionarios);
+                            System.out.print("Digite o ID do funcionário responsável: ");
+                            int idFuncionario = scanner.nextInt();
+                            scanner.nextLine();
+                            Funcionario funcionarioEmprestimo = funcionarios.get(idFuncionario - 1);
+
+                            System.out.printf("Data do empréstimo (dd/mm/aa): ");
+                            String dataEmprestimo = scanner.nextLine();
+
+                            System.out.printf("Data da devolução (dd/mm/aa): ");
+                            String dataDevolucao = scanner.nextLine();
+
+                            System.out.printf("Status do empréstimo: ");
+                            String statusEmprestimo = scanner.nextLine();
+
+                            double multa = 0.0;
+
+                            Emprestimo novoEmprestimo = new Emprestimo(clienteEmprestimo, livroEmprestimo, dataEmprestimo,
+                                    dataDevolucao, statusEmprestimo, multa, funcionarioEmprestimo);
+
+                            historicoEmprestimos.add(novoEmprestimo);
+
+                            System.out.println("--EMPRÉSTIMO REALIZADO--");
+                            System.out.println(historicoEmprestimos);
+                        }
+                    }
+
+                    break;
+
+                case 5:
+
             }
 
         } while (escolhaUser != 10);
     }
+
+    public static void exibirClientes(List<Cliente> clientes) {
+        for (int i = 0; i < clientes.size(); i++) {
+            System.out.println("ID: " + (i+1) + clientes.get(i));
+        }
+    }
+
+    public static void exibirFuncionarios(List<Funcionario> funcionarios) {
+        for (int i = 0; i < funcionarios.size(); i++) {
+            System.out.println("ID: " + (i+1) + funcionarios.get(i));
+        }
+    }
+
+    public static void exibirLivros(List<Livro> livros) {
+        for (int i = 0; i < livros.size(); i++) {
+            System.out.println("ID: " + (i+1) + livros.get(i));
+        }
+    }
+
 }
