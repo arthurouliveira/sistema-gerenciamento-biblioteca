@@ -3,14 +3,14 @@ package sistema_biblioteca;
 public class Funcionario {
 
     private String nome;
-    private int CPF;
+    private String CPF;
     private String cargo;
     private String email;
     private String telefone;
     private String dataContratacao;
     private String turnoTrabalho;
 
-    public Funcionario(String nome, int CPF, String cargo, String email,
+    public Funcionario(String nome, String CPF, String cargo, String email,
                        String telefone, String dataContratacao, String turnoTrabalho) {
 
         this.nome = nome;

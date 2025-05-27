@@ -3,14 +3,14 @@ package sistema_biblioteca;
 public class Cliente {
 
     private String nome;
-    private int CPF;
+    private String CPF;
     private String cidade;
     private String telefone;
     private String email;
     private String dataNascimento;
     private boolean clienteNovo;
 
-    public Cliente(String nome, int CPF, String cidade, String telefone,
+    public Cliente(String nome, String CPF, String cidade, String telefone,
                    String email, String dataNascimento, boolean clienteNovo) {
 
         this.nome = nome;

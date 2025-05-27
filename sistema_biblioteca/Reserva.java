@@ -22,5 +22,13 @@ public class Reserva {
         this.dataSolicitacao = dataSolicitacao;
 
     }
+
+    @Override
+    public String toString() {
+        return " | Cliente: [" + this.cliente + "] | Livro: [" + this.livro + "] | Data da reserva: " + this.dataReserva+
+                " | Status da reserva: " + this.status + " | Data de expiração: " + this.dataExpiracao+
+                " | Dias para retirada: " + this.numeroDiasParaRetirada + " | Data da solicitação: " + this.dataSolicitacao;
+    }
+
 }
 

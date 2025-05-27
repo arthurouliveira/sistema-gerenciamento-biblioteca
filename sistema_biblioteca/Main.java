@@ -13,7 +13,10 @@ public class Main {
         List<Livro> livrosCadastrados = new ArrayList<>();
         List<Cliente> clientes = new ArrayList<>();
         List<Funcionario> funcionarios = new ArrayList<>();
-        List<Emprestimo> historicoEmprestimos = new ArrayList<>();
+        List<Emprestimo> emprestimos = new ArrayList<>();
+        List<HistoricoEmprestimos> historicoEmprestimos = new ArrayList<>();
+        List<Reserva> reservas = new ArrayList<>();
+        List<Multa> multasAplicadas = new ArrayList<>();
 
         do {
             System.out.println("==== Sistema de Biblioteca ====");
@@ -41,8 +44,8 @@ public class Main {
                     System.out.printf("Nome do autor: ");
                     String autorLivro = scanner.nextLine();
 
-                    System.out.printf("ISNB: ");
-                    int isnbLivro = scanner.nextInt();
+                    System.out.printf("ISBN: ");
+                    int isbnLivro = scanner.nextInt();
 
                     System.out.printf("Ano de publicação: ");
                     int anoPublicacao = scanner.nextInt();
@@ -57,7 +60,7 @@ public class Main {
                     System.out.printf("Status: ");
                     String statusLivro = scanner.nextLine();
 
-                    Livro livroCadastrado = new Livro(tituloLivro, autorLivro, isnbLivro, anoPublicacao,
+                    Livro livroCadastrado = new Livro(tituloLivro, autorLivro, isbnLivro, anoPublicacao,
                             qtdEstoque, categoriaLivro, statusLivro);
 
                     livrosCadastrados.add(livroCadastrado);
@@ -71,8 +74,7 @@ public class Main {
                     String nomeCliente = scanner.nextLine();
 
                     System.out.printf("CPF: ");
-                    int cpfCliente = scanner.nextInt();
-                    scanner.nextLine();
+                    String cpfCliente = scanner.nextLine();
 
                     System.out.printf("Cidade: ");
                     String cidadeCliente = scanner.nextLine();
@@ -83,7 +85,7 @@ public class Main {
                     System.out.printf("Email: ");
                     String emailCliente = scanner.nextLine();
 
-                    System.out.printf("Data de nascimento: ");
+                    System.out.printf("Data de nascimento (dd/mm/aa): ");
                     String nascimentoCliente = scanner.nextLine();
 
                     System.out.printf("É cliente novo? (s/n) ");
@@ -110,8 +112,7 @@ public class Main {
                     String nomeFuncionario = scanner.nextLine();
 
                     System.out.printf("CPF: ");
-                    int cpfFuncionario = scanner.nextInt();
-                    scanner.nextLine();
+                    String cpfFuncionario = scanner.nextLine();
 
                     System.out.printf("Cargo: ");
                     String cargo = scanner.nextLine();
@@ -122,7 +123,7 @@ public class Main {
                     System.out.printf("Telefone: ");
                     String telefoneFuncionario = scanner.nextLine();
 
-                    System.out.printf("Data de contratação: ");
+                    System.out.printf("Data de contratação (dd/mm/aa): ");
                     String dataContratacao = scanner.nextLine();
 
                     System.out.printf("Turno de trabalho: ");
@@ -148,6 +149,7 @@ public class Main {
                         continue;
                     } else if (funcionarios.isEmpty()) {
                         System.out.println("Ainda não há nenhum funcionário cadastrado. Cadastre um para realizar o empréstimo!");
+                        continue;
                     }
 
                     else {
@@ -190,7 +192,11 @@ public class Main {
                             Emprestimo novoEmprestimo = new Emprestimo(clienteEmprestimo, livroEmprestimo, dataEmprestimo,
                                     dataDevolucao, statusEmprestimo, multa, funcionarioEmprestimo);
 
-                            historicoEmprestimos.add(novoEmprestimo);
+                            HistoricoEmprestimos emprestimo = new HistoricoEmprestimos(clienteEmprestimo, livroEmprestimo, dataEmprestimo,
+                                    dataDevolucao, statusEmprestimo, multa, funcionarioEmprestimo);
+
+                            historicoEmprestimos.add(emprestimo);
+                            emprestimos.add(novoEmprestimo);
 
                             System.out.println("--EMPRÉSTIMO REALIZADO--");
                             System.out.println(historicoEmprestimos);
@@ -200,6 +206,150 @@ public class Main {
                     break;
 
                 case 5:
+                    System.out.println("--DEVOLUÇÃO DE LIVRO--");
+
+                    if (historicoEmprestimos.size() == 0) {
+                        System.out.println("Não nenhum livro emprestado!");
+                    } else {
+                        exibirLivrosEmprestados(historicoEmprestimos);
+                        System.out.printf("Digite o ID do livro que deseja devolver: ");
+                        int idEmprestado = scanner.nextInt();
+                        scanner.nextLine();
+                        historicoEmprestimos.remove(idEmprestado - 1);
+                        System.out.println("--DEVOLUÇÃO CONCEDIDA!--");
+                    }
+
+                    break;
+
+                case 6:
+                    System.out.println("--GERENCIAR RESERVAS--");
+
+                    if (clientes.isEmpty()) {
+                        System.out.println("Ainda não há nenhum cliente cadastrado. Cadastre um para realizar o empréstimo!");
+                        continue;
+                    } else if (livrosCadastrados.isEmpty()) {
+                        System.out.println("Ainda não há nenhum livro cadastrado. Cadastre um para realizar o empréstimo!");
+                        continue;
+                    } else if (funcionarios.isEmpty()) {
+                        System.out.println("Ainda não há nenhum funcionário cadastrado. Cadastre um para realizar o empréstimo!");
+                        continue;
+                    }
+
+                    else {
+                        System.out.println("---------------------------");
+                        System.out.println("O que deseja fazer?");
+                        System.out.println("1- Criar reserva");
+                        System.out.println("2- Cancelar reserva");
+                        System.out.println("3- Ver reservas ativas");
+                        System.out.printf("Sua escolha: ");
+                        int escolha = scanner.nextInt();
+
+                        if (escolha == 1) {
+                            exibirClientes(clientes);
+                            System.out.printf("Digite o ID do Cliente: ");
+                            int idCliente = scanner.nextInt();
+                            Cliente clienteReserva = clientes.get(idCliente - 1);
+
+                            exibirLivros(livrosCadastrados);
+                            System.out.printf("Digite o ID do Livro: ");
+                            int idLivro = scanner.nextInt();
+                            Livro livroReserva = livrosCadastrados.get(idLivro - 1);
+                            scanner.nextLine();
+
+                            System.out.printf("Data da reserva (dd/mm/aa): ");
+                            String dataReserva = scanner.nextLine();
+
+                            System.out.printf("Status da reserva: ");
+                            String statusReserva = scanner.nextLine();
+
+                            System.out.printf("Data de expiração (dd/mm/aa): ");
+                            String dataExpiracao = scanner.nextLine();
+
+                            System.out.printf("Número de dias para a retirada: ");
+                            int numeroDiasRetirada = scanner.nextInt();
+                            scanner.nextLine();
+
+                            System.out.printf("Data da solicitação (dd/mm/aa): ");
+                            String dataSolicitacao = scanner.nextLine();
+
+                            Reserva novaReserva = new Reserva(clienteReserva, livroReserva, dataReserva, statusReserva,
+                                    dataExpiracao, numeroDiasRetirada, dataSolicitacao);
+
+                            reservas.add(novaReserva);
+                            System.out.println("--RESERVA CRIADA!--");
+                            System.out.println(novaReserva);
+
+                        } else if (escolha == 2) {
+                            if (reservas.isEmpty()) {
+                                System.out.println("Não há nenhuma reserva cadastrada. Tente novamente!");
+                            } else {
+                                exibirReservas(reservas);
+                                System.out.printf("Selecione o ID da reserva que deseja cancelar: ");
+                                int idReserva = scanner.nextInt();
+                                scanner.nextLine();
+                                reservas.remove(idReserva - 1);
+                                System.out.println("--RESERVA CANCELADA!--");
+                            }
+
+                        } else if (escolhaUser == 3) {
+                            if (reservas.isEmpty()) {
+                                System.out.println("Não há nenhuma reserva cadastrada. Tente novamente!");
+                            } else {
+                                System.out.println("--RESERVAS ATIVAS--");
+                                exibirReservas(reservas);
+                            }
+                        }
+
+                    }
+
+                    break;
+
+                case 7:
+                    System.out.println("--APLICAR MULTA--");
+
+                    if (clientes.isEmpty()) {
+                        System.out.println("Ainda não há nenhum cliente cadastrado. Cadastre um para aplicar a multa!");
+                        continue;
+                    } else if (livrosCadastrados.isEmpty()) {
+                        System.out.println("Ainda não há nenhum livro cadastrado. Cadastre um para aplicar a multa!");
+                        continue;
+                    } else if (funcionarios.isEmpty()) {
+                        System.out.println("Ainda não há nenhum funcionário cadastrado. Cadastre um para aplicar a multa!");
+                        continue;
+                    } else if (historicoEmprestimos.isEmpty()) {
+                        System.out.println("Ainda não há nenhum empréstimo cadastrado. Cadastre um para aplicar a multa!");
+                        continue;
+                    }
+
+                    else {
+                        exibirClientes(clientes);
+                        System.out.printf("ID do Cliente: ");
+                        int idCliente = scanner.nextInt();
+                        scanner.nextLine();
+                        Cliente clienteMulta = clientes.get(idCliente - 1);
+
+                        System.out.printf("Motivo da multa: ");
+                        String motivoMulta = scanner.nextLine();
+
+                        System.out.printf("Data de aplicação da multa (dd/mm/aa): ");
+                        String dataAplicacao = scanner.nextLine();
+
+                        System.out.printf("Dias de atraso na devolução: ");
+                        int diasAtraso = scanner.nextInt();
+
+                        exibirLivros(livrosCadastrados);
+                        System.out.printf("ID do livro associado: ");
+                        int idLivro = scanner.nextInt();
+                        scanner.nextLine();
+                        Livro livroAssociado = livrosCadastrados.get(idLivro - 1);
+
+                        System.out.printf("Forma de pagamento: ");
+                        String formaPagamento = scanner.nextLine();
+
+                        Multa multa = new Multa(clienteMulta, motivoMulta, dataAplicacao, diasAtraso, livroAssociado, formaPagamento);
+                        multasAplicadas.add(multa);
+                        System.out.println(multa);
+                    }
 
             }
 
@@ -221,6 +371,18 @@ public class Main {
     public static void exibirLivros(List<Livro> livros) {
         for (int i = 0; i < livros.size(); i++) {
             System.out.println("ID: " + (i+1) + livros.get(i));
+        }
+    }
+
+    public static void exibirLivrosEmprestados(List<HistoricoEmprestimos> livrosEmprestados) {
+        for (int i = 0; i < livrosEmprestados.size(); i++) {
+            System.out.println("ID: " + (i+1) + livrosEmprestados.get(i));
+        }
+    }
+
+    public static void exibirReservas(List<Reserva> reservas) {
+        for (int i = 0; i < reservas.size(); i++) {
+            System.out.println("ID: " + (i+1) + reservas.get(i));
         }
     }
 
