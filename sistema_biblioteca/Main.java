@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class Main {
 
     public static void main(String[] args) {
@@ -13,7 +14,7 @@ public class Main {
         List<Livro> livrosCadastrados = new ArrayList<>();
         List<Cliente> clientes = new ArrayList<>();
         List<Funcionario> funcionarios = new ArrayList<>();
-        List<Emprestimo> emprestimos = new ArrayList<>();
+        List<Emprestimo> emprestimosAtivos = new ArrayList<>();
         List<HistoricoEmprestimos> historicoEmprestimos = new ArrayList<>();
         List<Reserva> reservas = new ArrayList<>();
         List<Multa> multasAplicadas = new ArrayList<>();
@@ -184,19 +185,21 @@ public class Main {
                             System.out.printf("Data da devolução (dd/mm/aa): ");
                             String dataDevolucao = scanner.nextLine();
 
-                            System.out.printf("Status do empréstimo: ");
+                            System.out.printf("Ativar o empréstimo (s/n)? ");
                             String statusEmprestimo = scanner.nextLine();
 
                             double multa = 0.0;
 
-                            Emprestimo novoEmprestimo = new Emprestimo(clienteEmprestimo, livroEmprestimo, dataEmprestimo,
-                                    dataDevolucao, statusEmprestimo, multa, funcionarioEmprestimo);
+                            if (statusEmprestimo.equalsIgnoreCase("s")) {
+                                Emprestimo novoEmprestimo = new Emprestimo(clienteEmprestimo, livroEmprestimo, dataEmprestimo,
+                                        dataDevolucao, statusEmprestimo, multa, funcionarioEmprestimo);
+                                emprestimosAtivos.add(novoEmprestimo);
+                            }
 
                             HistoricoEmprestimos emprestimo = new HistoricoEmprestimos(clienteEmprestimo, livroEmprestimo, dataEmprestimo,
                                     dataDevolucao, statusEmprestimo, multa, funcionarioEmprestimo);
 
                             historicoEmprestimos.add(emprestimo);
-                            emprestimos.add(novoEmprestimo);
 
                             System.out.println("--EMPRÉSTIMO REALIZADO--");
                             System.out.println(historicoEmprestimos);
@@ -215,7 +218,12 @@ public class Main {
                         System.out.printf("Digite o ID do livro que deseja devolver: ");
                         int idEmprestado = scanner.nextInt();
                         scanner.nextLine();
+
                         historicoEmprestimos.remove(idEmprestado - 1);
+                        Livro livroDevolucao = livrosCadastrados.get(idEmprestado - 1);
+                        int estoque = livroDevolucao.getQtdEstoque();
+                        livroDevolucao.setQtdEstoque(estoque + 1);
+
                         System.out.println("--DEVOLUÇÃO CONCEDIDA!--");
                     }
 
@@ -291,7 +299,7 @@ public class Main {
                                 System.out.println("--RESERVA CANCELADA!--");
                             }
 
-                        } else if (escolhaUser == 3) {
+                        } else if (escolha == 3) {
                             if (reservas.isEmpty()) {
                                 System.out.println("Não há nenhuma reserva cadastrada. Tente novamente!");
                             } else {
@@ -322,11 +330,11 @@ public class Main {
                     }
 
                     else {
-                        exibirClientes(clientes);
-                        System.out.printf("ID do Cliente: ");
-                        int idCliente = scanner.nextInt();
+                        exibirLivrosEmprestados(historicoEmprestimos);
+                        System.out.printf("ID do Empréstimo: ");
+                        int idEmprestimo = scanner.nextInt();
                         scanner.nextLine();
-                        Cliente clienteMulta = clientes.get(idCliente - 1);
+                        HistoricoEmprestimos multaEmprestimo = historicoEmprestimos.get(idEmprestimo - 1);
 
                         System.out.printf("Motivo da multa: ");
                         String motivoMulta = scanner.nextLine();
@@ -334,26 +342,124 @@ public class Main {
                         System.out.printf("Data de aplicação da multa (dd/mm/aa): ");
                         String dataAplicacao = scanner.nextLine();
 
+                        exibirFuncionarios(funcionarios);
+                        System.out.printf("ID do Funcionário que está aplicando a multa: ");
+                        int idFuncionario = scanner.nextInt();
+                        Funcionario funcionarioAplicando = funcionarios.get(idFuncionario - 1);
+
                         System.out.printf("Dias de atraso na devolução: ");
                         int diasAtraso = scanner.nextInt();
-
-                        exibirLivros(livrosCadastrados);
-                        System.out.printf("ID do livro associado: ");
-                        int idLivro = scanner.nextInt();
                         scanner.nextLine();
-                        Livro livroAssociado = livrosCadastrados.get(idLivro - 1);
 
                         System.out.printf("Forma de pagamento: ");
                         String formaPagamento = scanner.nextLine();
 
-                        Multa multa = new Multa(clienteMulta, motivoMulta, dataAplicacao, diasAtraso, livroAssociado, formaPagamento);
+                        Multa multa = new Multa(multaEmprestimo, motivoMulta, dataAplicacao, funcionarioAplicando, diasAtraso, formaPagamento, 10);
                         multasAplicadas.add(multa);
+                        System.out.println("--MULTA APLICADA!--");
                         System.out.println(multa);
                     }
 
+                    break;
+
+                case 8:
+                    System.out.println("--REALIZAR PAGAMENTO--");
+
+                    if (multasAplicadas.isEmpty()) {
+                        System.out.println("Não há nenhuma multa cadastrada.");
+                    } else {
+                        exibirMultas(multasAplicadas);
+                        System.out.printf("ID da multa para pagamento: ");
+                        int idMulta = scanner.nextInt();
+                        scanner.nextLine();
+                        Multa multaPagamento = multasAplicadas.get(idMulta - 1);
+
+                        System.out.println("Valor: R$" + multaPagamento.getValor());
+                        double valorMulta = multaPagamento.getValor();
+
+                        System.out.printf("Forma de pagamento: ");
+                        String formaPagamento = scanner.nextLine();
+
+                        System.out.printf("Status do pagamento: ");
+                        String statusPagamento = scanner.nextLine();
+
+                        System.out.printf("Data do pagamento (dd/mm/aa): ");
+                        String dataPagamento = scanner.nextLine();
+
+                        System.out.println("Motivo da multa: " + multaPagamento.getMotivo());
+                        System.out.println("Valor total: R$" + multaPagamento.getValor());
+                        String motivoMulta = scanner.nextLine();
+
+                        Pagamento pagamento = new Pagamento(multaPagamento, valorMulta, formaPagamento, statusPagamento, dataPagamento,
+                                motivoMulta, valorMulta);
+
+                        System.out.println("--PAGAMENTO FEITO!--");
+                        System.out.println(pagamento);
+                    }
+
+                    break;
+
+                case 9:
+                    System.out.println("--RELATÓRIOS--");
+                    System.out.println("1- Ver clientes cadastrados");
+                    System.out.println("2- Ver livros emprestados");
+                    System.out.println("3- Ver funcionários cadastrados");
+                    System.out.println("4- Ver multas cadastradas");
+
+                    System.out.printf("Sua escolha: ");
+                    int escolha = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch (escolha) {
+                        case 1:
+                            if (clientes.isEmpty()) {
+                                System.out.println("Ainda não há nenhum cliente cadastrado");
+                            } else {
+                                System.out.println("--CLIENTE(s) CADASTRADO(s)--");
+                                exibirClientes(clientes);
+                            }
+                            break;
+                        case 2:
+                            if (livrosCadastrados.isEmpty()) {
+                                System.out.println("Ainda não há nenhum livro cadastrado");
+                            } else {
+                                System.out.println("--LIVRO(s) CADASTRADO(s)--");
+                                exibirLivros(livrosCadastrados);
+                            }
+                            break;
+                        case 3:
+                            if (funcionarios.isEmpty()) {
+                                System.out.println("Ainda não há nenhum funcionário cadastrado");
+                            } else {
+                                System.out.println("--FUNCIONÁRIO(s) CADASTRADO(s)--");
+                                exibirFuncionarios(funcionarios);
+                            }
+                            break;
+                        case 4:
+                            if (multasAplicadas.isEmpty()) {
+                                System.out.println("Ainda não há nenhuma multa cadastrada");
+                            } else {
+                                System.out.println("--MULTA(s) CADASTRADA(s)--");
+                                exibirMultas(multasAplicadas);
+                            }
+                            break;
+                        default:
+                            System.out.println("--OPCÃO INVÁLIDA--");
+                            continue;
+                    }
+
+                    break;
+
+                case 10:
+                    System.out.println("--FIM DO PROGRAMA--");
+                    break;
+
+                default:
+                    System.out.println("--SELECIONE UMA OPÇÃO VÁLIDA!--");
             }
 
         } while (escolhaUser != 10);
+
     }
 
     public static void exibirClientes(List<Cliente> clientes) {
@@ -386,4 +492,11 @@ public class Main {
         }
     }
 
+    public static void exibirMultas(List<Multa> multas) {
+        for (int i = 0; i < multas.size(); i++) {
+            System.out.println("ID: " + (i+1) + multas.get(i));
+        }
+    }
+
 }
+

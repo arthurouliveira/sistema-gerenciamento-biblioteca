@@ -1,24 +1,27 @@
 package sistema_biblioteca;
 
+import java.util.List;
+
 public class Multa {
 
-    private Cliente cliente;
+    private HistoricoEmprestimos emprestimo;
     private String motivo;
     private String dataAplicacao;
+    private Funcionario funcionarioAplicando;
     private int diasAtraso;
-    private Livro livroAssociado;
     private String formaPagamento;
     private double valor = 10.0;
 
-    public Multa(Cliente cliente, String motivo, String dataAplicacao,
-                 int diasAtraso, Livro livroAssociado, String formaPagamento) {
+    public Multa(HistoricoEmprestimos emprestimo, String motivo, String dataAplicacao,
+                 Funcionario funcionarioAplicando, int diasAtraso, String formaPagamento, double valor) {
 
-        this.cliente = cliente;
+        this.emprestimo = emprestimo;
         this.motivo = motivo;
         this.dataAplicacao = dataAplicacao;
+        this.funcionarioAplicando = funcionarioAplicando;
         this.diasAtraso = diasAtraso;
-        this.livroAssociado = livroAssociado;
         this.formaPagamento = formaPagamento;
+        this.valor = calcularValorMulta();
 
     }
 
@@ -26,10 +29,19 @@ public class Multa {
         return valor + (diasAtraso * 2);
     }
 
+    public double getValor() {
+        return valor;
+    }
+
+    public String getMotivo() {
+        return motivo;
+    }
+
     @Override
     public String toString() {
-        return " | Cliente: [" + this.cliente + "] | Motivo: [" + this.motivo + "] | Data da aplicação: " + this.dataAplicacao+
-                " | Dias de atraso: " + this.diasAtraso + " | Livro associado: [" + this.livroAssociado+ "]" +
+        return " | Empréstimo: [" + this.emprestimo + "] | Motivo: [" + this.motivo + "] | Data da aplicação: " + this.dataAplicacao+
+                " | Funcionário aplicando: " + this.funcionarioAplicando + " | Dias de atraso: " + this.diasAtraso +
                 " | Forma de pagamento: " + this.formaPagamento + " | Valor da multa: R$ " + this.calcularValorMulta();
     }
+
 }

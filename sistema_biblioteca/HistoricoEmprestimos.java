@@ -8,4 +8,5 @@ public class HistoricoEmprestimos extends Emprestimo {
         super(cliente, livro, dataEmprestimo, dataDevolucao, status, multaAplicada, funcionarioResponsavel);
 
     }
+
 }
