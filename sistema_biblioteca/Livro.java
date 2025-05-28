@@ -1,5 +1,7 @@
 package sistema_biblioteca;
 
+import java.util.List;
+
 public class Livro {
 
     private String titulo;
@@ -29,6 +31,12 @@ public class Livro {
 
     public void setQtdEstoque(int qtdEstoque) {
         this.qtdEstoque = qtdEstoque;
+    }
+
+    public static void exibirLivros(List<Livro> livros) {
+        for (int i = 0; i < livros.size(); i++) {
+            System.out.println("ID: " + (i+1) + livros.get(i));
+        }
     }
 
     @Override

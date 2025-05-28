@@ -1,5 +1,7 @@
 package sistema_biblioteca;
 
+import java.util.List;
+
 public class Reserva {
 
     private Cliente cliente;
@@ -23,9 +25,15 @@ public class Reserva {
 
     }
 
+    public static void exibirReservas(List<Reserva> reservas) {
+        for (int i = 0; i < reservas.size(); i++) {
+            System.out.println("ID: " + (i+1) + reservas.get(i));
+        }
+    }
+
     @Override
     public String toString() {
-        return " | Cliente: [" + this.cliente + "] | Livro: [" + this.livro + "] | Data da reserva: " + this.dataReserva+
+        return " | Cliente: {" + this.cliente + "} | Livro: {" + this.livro + "} | Data da reserva: " + this.dataReserva+
                 " | Status da reserva: " + this.status + " | Data de expiração: " + this.dataExpiracao+
                 " | Dias para retirada: " + this.numeroDiasParaRetirada + " | Data da solicitação: " + this.dataSolicitacao;
     }

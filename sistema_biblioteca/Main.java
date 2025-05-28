@@ -154,7 +154,7 @@ public class Main {
                     }
 
                     else {
-                        exibirLivros(livrosCadastrados);
+                        Livro.exibirLivros(livrosCadastrados);
                         System.out.print("Digite o ID do livro: ");
                         int idLivro = scanner.nextInt();
                         scanner.nextLine();
@@ -167,13 +167,13 @@ public class Main {
                         } else {
                             livroEmprestimo.setQtdEstoque(livroEmprestimo.getQtdEstoque()-1);
 
-                            exibirClientes(clientes);
+                            Cliente.exibirClientes(clientes);
                             System.out.printf("Qual cliente deseja conceder o empréstimo? ID: ");
                             int idCliente = scanner.nextInt();
                             scanner.nextLine();
                             Cliente clienteEmprestimo = clientes.get(idCliente - 1);
 
-                            exibirFuncionarios(funcionarios);
+                            Funcionario.exibirFuncionarios(funcionarios);
                             System.out.print("Digite o ID do funcionário responsável: ");
                             int idFuncionario = scanner.nextInt();
                             scanner.nextLine();
@@ -211,10 +211,10 @@ public class Main {
                 case 5:
                     System.out.println("--DEVOLUÇÃO DE LIVRO--");
 
-                    if (historicoEmprestimos.size() == 0) {
+                    if (emprestimosAtivos.size() == 0) {
                         System.out.println("Não nenhum livro emprestado!");
                     } else {
-                        exibirLivrosEmprestados(historicoEmprestimos);
+                        HistoricoEmprestimos.exibirLivrosEmprestados(historicoEmprestimos);
                         System.out.printf("Digite o ID do livro que deseja devolver: ");
                         int idEmprestado = scanner.nextInt();
                         scanner.nextLine();
@@ -233,13 +233,13 @@ public class Main {
                     System.out.println("--GERENCIAR RESERVAS--");
 
                     if (clientes.isEmpty()) {
-                        System.out.println("Ainda não há nenhum cliente cadastrado. Cadastre um para realizar o empréstimo!");
+                        System.out.println("Ainda não há nenhum cliente cadastrado. Cadastre um para gerenciar reservas!");
                         continue;
                     } else if (livrosCadastrados.isEmpty()) {
-                        System.out.println("Ainda não há nenhum livro cadastrado. Cadastre um para realizar o empréstimo!");
+                        System.out.println("Ainda não há nenhum livro cadastrado. Cadastre um para gerenciar reservas");
                         continue;
                     } else if (funcionarios.isEmpty()) {
-                        System.out.println("Ainda não há nenhum funcionário cadastrado. Cadastre um para realizar o empréstimo!");
+                        System.out.println("Ainda não há nenhum funcionário cadastrado. Cadastre um para gerenciar reservas");
                         continue;
                     }
 
@@ -253,12 +253,12 @@ public class Main {
                         int escolha = scanner.nextInt();
 
                         if (escolha == 1) {
-                            exibirClientes(clientes);
+                            Cliente.exibirClientes(clientes);
                             System.out.printf("Digite o ID do Cliente: ");
                             int idCliente = scanner.nextInt();
                             Cliente clienteReserva = clientes.get(idCliente - 1);
 
-                            exibirLivros(livrosCadastrados);
+                            Livro.exibirLivros(livrosCadastrados);
                             System.out.printf("Digite o ID do Livro: ");
                             int idLivro = scanner.nextInt();
                             Livro livroReserva = livrosCadastrados.get(idLivro - 1);
@@ -291,7 +291,7 @@ public class Main {
                             if (reservas.isEmpty()) {
                                 System.out.println("Não há nenhuma reserva cadastrada. Tente novamente!");
                             } else {
-                                exibirReservas(reservas);
+                                Reserva.exibirReservas(reservas);
                                 System.out.printf("Selecione o ID da reserva que deseja cancelar: ");
                                 int idReserva = scanner.nextInt();
                                 scanner.nextLine();
@@ -304,7 +304,7 @@ public class Main {
                                 System.out.println("Não há nenhuma reserva cadastrada. Tente novamente!");
                             } else {
                                 System.out.println("--RESERVAS ATIVAS--");
-                                exibirReservas(reservas);
+                                Reserva.exibirReservas(reservas);
                             }
                         }
 
@@ -330,7 +330,7 @@ public class Main {
                     }
 
                     else {
-                        exibirLivrosEmprestados(historicoEmprestimos);
+                        HistoricoEmprestimos.exibirLivrosEmprestados(historicoEmprestimos);
                         System.out.printf("ID do Empréstimo: ");
                         int idEmprestimo = scanner.nextInt();
                         scanner.nextLine();
@@ -342,7 +342,7 @@ public class Main {
                         System.out.printf("Data de aplicação da multa (dd/mm/aa): ");
                         String dataAplicacao = scanner.nextLine();
 
-                        exibirFuncionarios(funcionarios);
+                        Funcionario.exibirFuncionarios(funcionarios);
                         System.out.printf("ID do Funcionário que está aplicando a multa: ");
                         int idFuncionario = scanner.nextInt();
                         Funcionario funcionarioAplicando = funcionarios.get(idFuncionario - 1);
@@ -354,7 +354,7 @@ public class Main {
                         System.out.printf("Forma de pagamento: ");
                         String formaPagamento = scanner.nextLine();
 
-                        Multa multa = new Multa(multaEmprestimo, motivoMulta, dataAplicacao, funcionarioAplicando, diasAtraso, formaPagamento, 10);
+                        Multa multa = new Multa(multaEmprestimo, motivoMulta, dataAplicacao, funcionarioAplicando, diasAtraso, formaPagamento);
                         multasAplicadas.add(multa);
                         System.out.println("--MULTA APLICADA!--");
                         System.out.println(multa);
@@ -368,7 +368,7 @@ public class Main {
                     if (multasAplicadas.isEmpty()) {
                         System.out.println("Não há nenhuma multa cadastrada.");
                     } else {
-                        exibirMultas(multasAplicadas);
+                        Multa.exibirMultas(multasAplicadas);
                         System.out.printf("ID da multa para pagamento: ");
                         int idMulta = scanner.nextInt();
                         scanner.nextLine();
@@ -377,8 +377,8 @@ public class Main {
                         System.out.println("Valor: R$" + multaPagamento.getValor());
                         double valorMulta = multaPagamento.getValor();
 
-                        System.out.printf("Forma de pagamento: ");
-                        String formaPagamento = scanner.nextLine();
+                        System.out.printf("Forma de pagamento: " + multaPagamento.getFormaPagamento());
+                        String formaPagamento = multaPagamento.getFormaPagamento();
 
                         System.out.printf("Status do pagamento: ");
                         String statusPagamento = scanner.nextLine();
@@ -388,23 +388,33 @@ public class Main {
 
                         System.out.println("Motivo da multa: " + multaPagamento.getMotivo());
                         System.out.println("Valor total: R$" + multaPagamento.getValor());
-                        String motivoMulta = scanner.nextLine();
+                        String motivoMulta = multaPagamento.getMotivo();
 
-                        Pagamento pagamento = new Pagamento(multaPagamento, valorMulta, formaPagamento, statusPagamento, dataPagamento,
-                                motivoMulta, valorMulta);
+                        Pagamento pagamento = new Pagamento(multaPagamento, statusPagamento, dataPagamento);
 
                         System.out.println("--PAGAMENTO FEITO!--");
+                        multasAplicadas.remove(idMulta - 1);
                         System.out.println(pagamento);
                     }
 
                     break;
 
                 case 9:
+                    double valorTotalMultas = Multa.calcularValorTotalMultas(multasAplicadas);
+
+                    Relatorio relatorio = new Relatorio(historicoEmprestimos, emprestimosAtivos, livrosCadastrados, multasAplicadas,
+                            valorTotalMultas, clientes, funcionarios, reservas);
+
                     System.out.println("--RELATÓRIOS--");
-                    System.out.println("1- Ver clientes cadastrados");
-                    System.out.println("2- Ver livros emprestados");
-                    System.out.println("3- Ver funcionários cadastrados");
-                    System.out.println("4- Ver multas cadastradas");
+                    System.out.println("1- Ver histórico de empréstimos");
+                    System.out.println("2- Ver empréstimos ativos");
+                    System.out.println("3- Ver livros cadastrados");
+                    System.out.println("4- Ver multas aplicadas");
+                    System.out.println("5- Ver valor total de multas");
+                    System.out.println("6- Ver clientes cadastrados");
+                    System.out.println("7- Ver funcionários cadastrados");
+                    System.out.println("8- Ver reservas cadastradas");
+                    System.out.println("9- Ver relatório completo");
 
                     System.out.printf("Sua escolha: ");
                     int escolha = scanner.nextInt();
@@ -412,40 +422,80 @@ public class Main {
 
                     switch (escolha) {
                         case 1:
-                            if (clientes.isEmpty()) {
-                                System.out.println("Ainda não há nenhum cliente cadastrado");
+                            if (relatorio.getEmprestimosCadastrados().isEmpty()) {
+                                System.out.println("Não há nenhum empréstimo cadastrado");
+                                continue;
                             } else {
-                                System.out.println("--CLIENTE(s) CADASTRADO(s)--");
-                                exibirClientes(clientes);
+                                System.out.println("--EMPRÉSTIMO(s) CADASTRADO(s)--");
+                                HistoricoEmprestimos.exibirLivrosEmprestados(historicoEmprestimos);
                             }
                             break;
                         case 2:
-                            if (livrosCadastrados.isEmpty()) {
-                                System.out.println("Ainda não há nenhum livro cadastrado");
+                            if (relatorio.getEmprestimosAtivos().isEmpty()) {
+                                System.out.println("Não há nenhum empréstimo ativo!");
+                                continue;
                             } else {
-                                System.out.println("--LIVRO(s) CADASTRADO(s)--");
-                                exibirLivros(livrosCadastrados);
+                                System.out.println("--EMPRÉSTIMO(s) ATIVO(s)--");
+                                Emprestimo.exibirLivrosEmprestados(emprestimosAtivos);
                             }
                             break;
                         case 3:
-                            if (funcionarios.isEmpty()) {
-                                System.out.println("Ainda não há nenhum funcionário cadastrado");
+                            if (relatorio.getEmprestimosCadastrados().isEmpty()) {
+                                System.out.println("Não há histórico de empréstimo!");
+                                continue;
                             } else {
-                                System.out.println("--FUNCIONÁRIO(s) CADASTRADO(s)--");
-                                exibirFuncionarios(funcionarios);
+                                System.out.println("--EMPRÉSTIMO(s) CADASTRADO(s)--");
+                                HistoricoEmprestimos.exibirLivrosEmprestados(historicoEmprestimos);
                             }
                             break;
                         case 4:
-                            if (multasAplicadas.isEmpty()) {
-                                System.out.println("Ainda não há nenhuma multa cadastrada");
+                            if (relatorio.getMultasCadastradas().isEmpty()) {
+                                System.out.println("Não há nenhuma multa cadastrada!");
+                                continue;
                             } else {
                                 System.out.println("--MULTA(s) CADASTRADA(s)--");
-                                exibirMultas(multasAplicadas);
+                                Multa.exibirMultas(multasAplicadas);
                             }
                             break;
+                        case 5:
+                            if (relatorio.getMultasCadastradas().isEmpty()) {
+                                System.out.println("Não há nenhuma multa cadastrada!");
+                                continue;
+                            } else {
+                                System.out.println("Valor total em multas: R$" + relatorio.getValorTotalMultas());
+                            }
+                            break;
+                        case 6:
+                            if (relatorio.getClientesCadastrados().isEmpty()) {
+                                System.out.println("Não nenhum cliente cadastrado!");
+                                continue;
+                            } else {
+                                System.out.println("--CLIENTE(s) CADASTRADO(s)--");
+                                Cliente.exibirClientes(clientes);
+                            }
+                            break;
+                        case 7:
+                            if (relatorio.getFuncionariosCadastrados().isEmpty()) {
+                                System.out.println("Não há nenhum funcionário cadastrado!");
+                                continue;
+                            } else {
+                                System.out.println("--FUNCIONÁRIO(s) CADASTRADO(s)--");
+                                Funcionario.exibirFuncionarios(funcionarios);
+                            }
+                            break;
+                        case 8:
+                            if (relatorio.getReservasAtivas().isEmpty()) {
+                                System.out.println("Não há nenhuma reserva cadastrada!");
+                                continue;
+                            } else {
+                                System.out.println("--RESERVA(s) CADASTRADA(s)--");
+                                Reserva.exibirReservas(reservas);
+                            }
+                        case 9:
+                            System.out.println(relatorio);
+                            break;
                         default:
-                            System.out.println("--OPCÃO INVÁLIDA--");
-                            continue;
+                            System.out.println("Opção inválida!");
                     }
 
                     break;
@@ -462,41 +512,4 @@ public class Main {
 
     }
 
-    public static void exibirClientes(List<Cliente> clientes) {
-        for (int i = 0; i < clientes.size(); i++) {
-            System.out.println("ID: " + (i+1) + clientes.get(i));
-        }
-    }
-
-    public static void exibirFuncionarios(List<Funcionario> funcionarios) {
-        for (int i = 0; i < funcionarios.size(); i++) {
-            System.out.println("ID: " + (i+1) + funcionarios.get(i));
-        }
-    }
-
-    public static void exibirLivros(List<Livro> livros) {
-        for (int i = 0; i < livros.size(); i++) {
-            System.out.println("ID: " + (i+1) + livros.get(i));
-        }
-    }
-
-    public static void exibirLivrosEmprestados(List<HistoricoEmprestimos> livrosEmprestados) {
-        for (int i = 0; i < livrosEmprestados.size(); i++) {
-            System.out.println("ID: " + (i+1) + livrosEmprestados.get(i));
-        }
-    }
-
-    public static void exibirReservas(List<Reserva> reservas) {
-        for (int i = 0; i < reservas.size(); i++) {
-            System.out.println("ID: " + (i+1) + reservas.get(i));
-        }
-    }
-
-    public static void exibirMultas(List<Multa> multas) {
-        for (int i = 0; i < multas.size(); i++) {
-            System.out.println("ID: " + (i+1) + multas.get(i));
-        }
-    }
-
 }
-

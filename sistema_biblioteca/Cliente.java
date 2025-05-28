@@ -1,5 +1,7 @@
 package sistema_biblioteca;
 
+import java.util.List;
+
 public class Cliente {
 
     private String nome;
@@ -21,6 +23,12 @@ public class Cliente {
         this.dataNascimento = dataNascimento;
         this.clienteNovo = clienteNovo;
 
+    }
+
+    public static void exibirClientes(List<Cliente> clientes) {
+        for (int i = 0; i < clientes.size(); i++) {
+            System.out.println("ID: " + (i+1) + clientes.get(i));
+        }
     }
 
     @Override

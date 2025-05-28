@@ -1,5 +1,7 @@
 package sistema_biblioteca;
 
+import java.util.List;
+
 public class Emprestimo {
 
     private Cliente cliente;
@@ -24,10 +26,16 @@ public class Emprestimo {
 
     }
 
+    public static void exibirLivrosEmprestados(List<Emprestimo> emprestimosAtivos) {
+        for (int i = 0; i < emprestimosAtivos.size(); i++) {
+            System.out.println("ID: " + (i+1) + emprestimosAtivos.get(i));
+        }
+    }
+
     @Override
     public String toString() {
-        return " | Cliente: [" + this.cliente + "] | Livro: [" + this.livro + "] | Data do empréstimo: " + this.dataEmprestimo+
+        return " | Cliente: {" + this.cliente + "} | Livro: {" + this.livro + "} | Data do empréstimo: " + this.dataEmprestimo+
                 " | Data da devolução: " + this.dataDevolucao + " | Status: " + this.status+
-                " | Multa: " + this.multaAplicada + " | Funcionário: [" + this.funcionarioResponsavel + "]";
+                " | Multa: " + this.multaAplicada + " | Funcionário: {" + this.funcionarioResponsavel + "}";
     }
 }

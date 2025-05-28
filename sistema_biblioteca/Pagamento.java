@@ -2,34 +2,31 @@ package sistema_biblioteca;
 
 public class Pagamento {
 
-    Multa multa;
-
     private Multa multaSelecionada;
-    private double valor = multa.getValor();
+    private double valor;
     private String formaPagamento;
     private String statusPagamento;
     private String dataPagamento;
-    private String multaAplicada = multa.getMotivo();
-    private double valorTotal = multa.getValor();
+    private String motivoMulta;
+    private double valorTotal;
 
-    public Pagamento(Multa multaSelecionada, double valor, String formaPagamento, String statusPagamento,
-                     String dataPagamento, String multaAplicada, double valorTotal) {
-
+    public Pagamento(Multa multaSelecionada, String statusPagamento, String dataPagamento) {
         this.multaSelecionada = multaSelecionada;
-        this.valor = valor;
-        this.formaPagamento = formaPagamento;
+        this.valor = multaSelecionada.getValor(); // agora pode acessar!
+        this.formaPagamento = multaSelecionada.getFormaPagamento();
         this.statusPagamento = statusPagamento;
         this.dataPagamento = dataPagamento;
-        this.multaAplicada = multaAplicada;
-        this.valorTotal = valorTotal;
-
+        this.motivoMulta = multaSelecionada.getMotivo();
+        this.valorTotal = multaSelecionada.getValor();
     }
 
     @Override
     public String toString() {
-        return " | Multa: {" + this.multaSelecionada + "} | Valor: R$" + this.valor + " | Forma de pagamento: " + this.formaPagamento+
-                " | Status de pagamento: " + this.statusPagamento + " | Data de pagamento: " + this.dataPagamento+
-                " | Motivo da multa: " + this.multaAplicada + " | Valor total: R$" + this.valorTotal;
+        return " | Multa: {" + multaSelecionada + "} | Valor: R$" + valor +
+                " | Forma de pagamento: " + formaPagamento +
+                " | Status de pagamento: " + statusPagamento +
+                " | Data de pagamento: " + dataPagamento +
+                " | Motivo da multa: " + motivoMulta +
+                " | Valor total: R$" + valorTotal;
     }
-
 }

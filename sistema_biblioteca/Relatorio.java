@@ -4,25 +4,66 @@ import java.util.List;
 
 public class Relatorio {
 
-    private String data;
-    private int totalLivrosEmprestados;
-    private List<Livro> livrosMaisPopulares;
+    private List<HistoricoEmprestimos> emprestimosCadastrados;
+    private List<Emprestimo> emprestimosAtivos;
+    private List<Livro> livrosCadastrados;
+    private List<Multa> multasCadastradas;
     private double valorTotalMultas;
-    private int numeroClientes;
-    private String resumoPorCategoria;
-    private String resumoStatusReservas;
+    private List<Cliente> clientesCadastrados;
+    private List<Funcionario> funcionariosCadastrados;
+    private List<Reserva> reservasAtivas;
 
-    public Relatorio(String data, int totalLivrosEmprestados, List<Livro> livrosMaisPopulares,
-                     double valorTotalMultas, int numeroClientes, String resumoPorCategoria,
-                     String resumoStatusReservas) {
+    public Relatorio(List<HistoricoEmprestimos> emprestimosCadastrados, List<Emprestimo> emprestimosAtivos, List<Livro> livrosCadastrados, List<Multa> multasCadastradas,
+                     double valorTotalMultas, List<Cliente> clientesCadastrados, List<Funcionario> funcionariosCadastrados, List<Reserva> reservasAtivas) {
 
-        this.data = data;
-        this.totalLivrosEmprestados = totalLivrosEmprestados;
-        this.livrosMaisPopulares = livrosMaisPopulares;
+        this.emprestimosCadastrados = emprestimosCadastrados;
+        this.emprestimosAtivos = emprestimosAtivos;
+        this.livrosCadastrados = livrosCadastrados;
+        this.multasCadastradas = multasCadastradas;
         this.valorTotalMultas = valorTotalMultas;
-        this.numeroClientes = numeroClientes;
-        this.resumoPorCategoria = resumoPorCategoria;
-        this.resumoStatusReservas = resumoStatusReservas;
+        this.clientesCadastrados = clientesCadastrados;
+        this.funcionariosCadastrados = funcionariosCadastrados;
+        this.reservasAtivas = reservasAtivas;
 
+    }
+
+    public List<HistoricoEmprestimos> getEmprestimosCadastrados() {
+        return emprestimosCadastrados;
+    }
+
+    public List<Emprestimo> getEmprestimosAtivos() {
+        return emprestimosAtivos;
+    }
+
+    public List<Livro> getLivrosCadastrados() {
+        return livrosCadastrados;
+    }
+
+    public List<Multa> getMultasCadastradas() {
+        return multasCadastradas;
+    }
+
+    public double getValorTotalMultas() {
+        return valorTotalMultas;
+    }
+
+    public List<Cliente> getClientesCadastrados() {
+        return clientesCadastrados;
+    }
+
+    public List<Funcionario> getFuncionariosCadastrados() {
+        return funcionariosCadastrados;
+    }
+
+    public List<Reserva> getReservasAtivas() {
+        return reservasAtivas;
+    }
+
+    @Override
+    public String toString() {
+        return "Empréstimos cadastrados: " + getLivrosCadastrados() + " | Empréstimos Ativos: " + getEmprestimosAtivos()+
+                " | Livros cadastrados: " + getLivrosCadastrados() + " | Multas aplicadas: " + getMultasCadastradas()+
+                " | Valor total em multas: R$" + getValorTotalMultas() + " | Clientes cadastrados: " + getClientesCadastrados()+
+                " | Reservas ativas: " + getReservasAtivas();
     }
 }

@@ -1,5 +1,7 @@
 package sistema_biblioteca;
 
+import java.util.List;
+
 public class Funcionario {
 
     private String nome;
@@ -21,6 +23,12 @@ public class Funcionario {
         this.dataContratacao = dataContratacao;
         this.turnoTrabalho = turnoTrabalho;
 
+    }
+
+    public static void exibirFuncionarios(List<Funcionario> funcionarios) {
+        for (int i = 0; i < funcionarios.size(); i++) {
+            System.out.println("ID: " + (i+1) + funcionarios.get(i));
+        }
     }
 
     @Override
