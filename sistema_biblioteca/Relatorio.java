@@ -61,9 +61,13 @@ public class Relatorio {
 
     @Override
     public String toString() {
-        return "Empréstimos cadastrados: " + getLivrosCadastrados() + " | Empréstimos Ativos: " + getEmprestimosAtivos()+
-                " | Livros cadastrados: " + getLivrosCadastrados() + " | Multas aplicadas: " + getMultasCadastradas()+
-                " | Valor total em multas: R$" + getValorTotalMultas() + " | Clientes cadastrados: " + getClientesCadastrados()+
-                " | Reservas ativas: " + getReservasAtivas();
+        return "Empréstimos cadastrados: " + getLivrosCadastrados() + "\n" +
+                "Empréstimos Ativos: " + getEmprestimosAtivos() + "\n" +
+                "Livros cadastrados: " + getLivrosCadastrados() + "\n" +
+                "Multas aplicadas: " + getMultasCadastradas() + "\n" +
+                "Valor total em multas: R$" + getValorTotalMultas() + "\n" +
+                "Clientes cadastrados: " + getClientesCadastrados() + "\n" +
+                "Reservas ativas: " + getReservasAtivas();
     }
+
 }
